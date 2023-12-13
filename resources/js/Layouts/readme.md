@@ -1,16 +1,4 @@
-<script setup>
-import { ref } from "vue";
-import Dropdown from "@/Components/Dropdown.vue";
-import DropdownLink from "@/Components/DropdownLink.vue";
-import NavLink from "@/Components/NavLink.vue";
-</script>
-
-<template>
-    <div>
-        <div class="h-100   text-dark">
-                <!--=============== HEADER ===============-->
- 
-            <nav
+       <nav
                 class="navbar py-4 navbar-light bg-white navbar-expand-md border-bottom"
             >
                 <!-- Primary Navigation Menu -->
@@ -212,18 +200,3 @@ import NavLink from "@/Components/NavLink.vue";
                     </div>
                 </div>
             </nav>
-
-            <!-- Page Heading -->
-            <header  v-if="$slots.header">
-                <div class="container my-5">
-                    <slot name="header"></slot>
-                </div>
-            </header>
-
-            <!-- Page Content -->
-            <main>
-                <slot></slot>
-            </main>
-        </div>
-    </div>
-</template>
