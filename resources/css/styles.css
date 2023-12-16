@@ -86,15 +86,126 @@ img {
 }
 
 /*=============== REUSABLE CSS CLASSES ===============*/
-.container {
-  max-width: 1120px;
-  margin-left: var(--mb-1-5);
-  margin-right: var(--mb-1-5);
+
+.mt-10{
+  margin-top: 10rem !important;
 }
 
 .section {
   padding: 4.5rem 0 1rem;
 }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width:300px;
+  height:auto;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+  width: 100%;
+  height: auto;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-title-container {
+  background-color: #fff;
+}
+
+.card-title {
+  text-align: center;
+  margin: 0;
+  padding: 10px;
+}
+
+.cardparagraph-container {
+  background-color: #fff;
+}
+
+.card-text {
+  margin: 0;
+}
+
+.card-link {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: #007bff;
+  padding: 10px;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+}
+
+.card-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  background-color: #007bff;
+  flex: 3;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Estilos generales del navbar */
+.navbar {
+  background-color: #fff;
+  padding: 15px 0;
+}
+
+/* Estilos del contenedor */
+.container {
+  width: 100%;
+  max-width: 1200px; /* Ancho máximo del contenido */
+  margin: 0 auto; /* Centrar el contenido */
+  padding: 0 15px; /* Márgenes internos */
+}
+
+/* Estilos del navbar-collapse */
+.navbar-collapse {
+  text-align: center;
+}
+
+/* Estilos de la lista de elementos del navbar */
+.navbar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Estilos de los elementos de la lista */
+.navbar-nav li {
+  display: inline;
+  margin: 0 10px;
+}
+
+/* Estilos de los enlaces */
+.navbar-nav li a {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+/* Estilos del enlace activo */
+.navbar-nav li a.active {
+  background-color: #04aa6d;
+  color: #fff;
+}
+
 
 .section__title, .section__title-center {
   font-size: var(--h2-font-size);

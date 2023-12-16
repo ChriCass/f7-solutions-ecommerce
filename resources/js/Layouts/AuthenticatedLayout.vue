@@ -3,219 +3,419 @@ import { ref } from "vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
+import { onMounted } from "vue";
+
+ 
+onMounted(() => {
+    const showMenu = (toggleId, navId) => {
+        const toggle = document.getElementById(toggleId),
+            nav = document.getElementById(navId);
+
+        toggle.addEventListener("click", () => {
+            nav.classList.toggle("show-menu");
+            toggle.classList.toggle("show-icon");
+        });
+    };
+
+    showMenu("nav-toggle", "nav-menu");
+
+    const dropdownItems = document.querySelectorAll(".dropdown__item");
+
+    dropdownItems.forEach((item) => {
+        const dropdownButton = item.querySelector(".dropdown__button");
+
+        dropdownButton.addEventListener("click", () => {
+            const showDropdown = document.querySelector(".show-dropdown");
+
+            toggleItem(item);
+
+            if (showDropdown && showDropdown !== item) {
+                toggleItem(showDropdown);
+            }
+        });
+    });
+
+    const toggleItem = (item) => {
+        const dropdownContainer = item.querySelector(".dropdown__container");
+
+        if (item.classList.contains("show-dropdown")) {
+            dropdownContainer.removeAttribute("style");
+            item.classList.remove("show-dropdown");
+        } else {
+            dropdownContainer.style.height =
+                dropdownContainer.scrollHeight + "px";
+            item.classList.add("show-dropdown");
+        }
+    };
+
+    const mediaQuery = window.matchMedia("(min-width: 1118px)"),
+        dropdownContainer = document.querySelectorAll(".dropdown__container");
+
+    const removeStyle = () => {
+        if (mediaQuery.matches) {
+            dropdownContainer.forEach((e) => {
+                e.removeAttribute("style");
+            });
+
+            dropdownItems.forEach((e) => {
+                e.classList.remove("show-dropdown");
+            });
+        }
+    };
+
+    window.addEventListener("resize", removeStyle);
+
+    function scrollHeader() {
+        const nav = document.getElementById("header");
+
+        if (window.scrollY >= 80) {
+            nav.classList.add("scroll-header");
+        } else {
+            nav.classList.remove("scroll-header");
+        }
+    }
+
+    window.addEventListener("scroll", scrollHeader);
+});
 </script>
 
 <template>
     <div>
-        <div class="h-100   text-dark">
-                <!--=============== HEADER ===============-->
- 
-            <nav
-                class="navbar py-4 navbar-light bg-white navbar-expand-md border-bottom"
-            >
-                <!-- Primary Navigation Menu -->
-                <div class="container-fluid">
-                    <div class="d-flex justify-content-between">
-                        <div class="d-flex">
-                            <!-- Navigation Links -->
-                            <div class="navbar-nav d-md-flex">
-                                <NavLink
-                                    :href="route('dashboard')"
-                                    :active="route().current('dashboard')"
-                                    class="nav-item nav-link"
-                                >
-                                    Dashboard
-                                </NavLink>
-                            </div>
-                        </div>
+        <div class="h-100 text-dark">
+            <!--=============== HEADER ===============-->
+            <header class="header" id="header">
+                <nav class="nav pading">
+                    <div class="nav__data">
+                        <a href="#" class="nav__logo"> Logo </a>
                     </div>
 
-                    <!-- Logo en el centro siempre visible -->
-                    <div class="d-none d-lg-flex align-items-center">
-                        <ul class="navbar-nav">
-                            <li class="nav-item dropdown mx-3">
-                                <a
-                                    class="nav-link dropdown-toggle"
-                                    href="#"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    Dropdown
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" href="#"
-                                            >Action</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#"
-                                            >Another action</a
-                                        >
-                                    </li>
-                                    <li><hr class="dropdown-divider" /></li>
-                                    <li>
-                                        <a class="dropdown-item" href="#"
-                                            >Something else here</a
-                                        >
-                                    </li>
-                                </ul>
+                    <!--=============== NAV MENU ===============-->
+                    <div class="nav__menu" id="nav-menu">
+                        <ul class="nav__list">
+                            <!--=============== DROPDOWN 1 ===============-->
+                            <li class="dropdown__item">
+                                <div class="nav__link dropdown__button">
+                                    Contenidos
+                                    <i
+                                        class="ri-arrow-down-s-line dropdown__arrow"
+                                    ></i>
+                                </div>
+
+                                <div class="dropdown__container">
+                                    <div class="dropdown__content">
+                                        <div class="dropdown__group">
+                                            <span class="dropdown__title"
+                                                >Cursos introductorios</span
+                                            >
+
+                                            <ul class="dropdown__list">
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Bootcamp FullStack</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Introducción a CSS</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Introducción a
+                                                        Javascript</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Introducción a Git</a
+                                                    >
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="dropdown__group">
+                                            <span class="dropdown__title"
+                                                >Cursos bootcampes</span
+                                            >
+
+                                            <ul class="dropdown__list">
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Desarrollador
+                                                        Flutter</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Desarrollador Java</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Desarrollador Web con
+                                                        React</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Desarrollador Django</a
+                                                    >
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="dropdown__group">
+                                            <span class="dropdown__title"
+                                                >Bootcamps</span
+                                            >
+
+                                            <ul class="dropdown__list">
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Desarrollador
+                                                        FullStack</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Desarrollador de
+                                                        APPS</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Diseñador UI/UX</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Hacking Ético</a
+                                                    >
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="dropdown__group">
+                                            <span class="dropdown__title"
+                                                >Certificaciones</span
+                                            >
+
+                                            <ul class="dropdown__list">
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Certificaciones de
+                                                        cursos</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Certifiacaiones de
+                                                        bootcamp</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Certificaciones
+                                                        gratuitas</a
+                                                    >
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </li>
-                            <li class="nav-item dropdown mx-3">
-                                <a
-                                    class="nav-link dropdown-toggle"
-                                    href="#"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    Dropdown
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" href="#"
-                                            >Action</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#"
-                                            >Another action</a
-                                        >
-                                    </li>
-                                    <li><hr class="dropdown-divider" /></li>
-                                    <li>
-                                        <a class="dropdown-item" href="#"
-                                            >Something else here</a
-                                        >
-                                    </li>
-                                </ul>
+
+                            <!--=============== DROPDOWN 2 ===============-->
+                            <li class="dropdown__item">
+                                <div class="nav__link dropdown__button">
+                                    Recursos
+                                    <i
+                                        class="ri-arrow-down-s-line dropdown__arrow"
+                                    ></i>
+                                </div>
+
+                                <div class="dropdown__container">
+                                    <div class="dropdown__content">
+                                        <div class="dropdown__group">
+                                            <span class="dropdown__title"
+                                                >Plantillas Web</span
+                                            >
+
+                                            <ul class="dropdown__list">
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Plantillas gratis</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Plantillas premium</a
+                                                    >
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="dropdown__group">
+                                            <span class="dropdown__title"
+                                                >Diseños</span
+                                            >
+
+                                            <ul class="dropdown__list">
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Diseños webs</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Diseños de apps</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Diseños de
+                                                        componentes</a
+                                                    >
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="dropdown__group">
+                                            <span class="dropdown__title"
+                                                >Otros</span
+                                            >
+
+                                            <ul class="dropdown__list">
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Recent blogs</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Video tutoriales</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown__link"
+                                                        >Webinar</a
+                                                    >
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </li>
-                            <li class="d-flex align-items-center">
-                                <a class="dropdown-item" href="#"
-                                    >Another action</a
-                                >
+
+                            <li>
+                                <a href="#" class="nav__link">Precios</a>
                             </li>
-                            <li class="mx-3">
-                                <input
-                                    type="email"
-                                    class="form-control px-5"
-                                    id="exampleFormControlInput1"
-                                    placeholder="name@example.com"
-                                />
+                            <li class="nav__link">
+                                <form action="" class="search">
+                                    <input
+                                        type="search"
+                                        placeholder="Buscar curso"
+                                        class="search_input"
+                                    />
+                                    <div class="search_boton">
+                                        <i
+                                            class="ri-search-2-line search_icon"
+                                        ></i>
+                                    </div>
+                                </form>
                             </li>
                         </ul>
                     </div>
 
-                    <div class="d-none d-md-flex align-items-end">
-                        <!-- Settings Dropdown -->
-                        <div class="ms-3 position-relative">
-                            <Dropdown :align="end" width="48">
-                                <template #trigger>
-                                    <button
-                                        type="button"
-                                        class="btn btn-secondary dropdown-toggle"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        {{ $page.props.auth.user.first_name }}
-                                    </button>
-                                </template>
+                    <div class="nav__btns">
+                
 
-                                <template #content>
-                                    <DropdownLink
-                                        :href="route('profile.edit')"
-                                        class="dropdown-item"
-                                        >Profile</DropdownLink
-                                    >
-                                    <DropdownLink
-                                        :href="route('logout')"
-                                        method="post"
-                                        as="button"
-                                        class="dropdown-item"
-                                    >
-                                        Log Out
-                                    </DropdownLink>
-                                </template>
-                            </Dropdown>
-                        </div>
+                        <Dropdown :align="end" width="48">
+                            <template #trigger>
+                                <button
+                                    type="button"
+                                    class="dropbtn"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    {{ $page.props.auth.user.first_name }}
+                                </button>
+                            </template>
+
+                            <template #content>
+                                <DropdownLink
+                                    :href="route('profile.edit')"
+                                    class="dropdown-item"
+                                    >Profile</DropdownLink
+                                >
+                                <DropdownLink
+                                    :href="route('logout')"
+                                    method="post"
+                                    as="button"
+                                    class="dropdown-item"
+                                >
+                                    Log Out
+                                </DropdownLink>
+                            </template>
+                        </Dropdown>
                     </div>
 
-                    <!-- Botón para menú desplegable solo en móviles y tabletas -->
-                    <button
-                        class="navbar-toggler no-border d-lg-none"
-                        type="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasRight"
-                        aria-controls="offcanvasRight"
-                    >
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <!-- Offcanvas solo para móviles y tabletas -->
-                    <div
-                        class="offcanvas text-white offcanvas-end d-md-none d-lg-none"
-                        tabindex="-1"
-                        id="offcanvasRight"
-                        aria-labelledby="offcanvasRightLabel"
-                    >
-                        <div class="offcanvas-header">
-                            <button
-                                type="button"
-                                class="btn-close text-white text-reset"
-                                data-bs-dismiss="offcanvas"
-                                aria-label="Close"
-                            ></button>
-                        </div>
-                        <div class="offcanvas-body">
-                            <ul class="navbar-nav">
-                                <div class="d-flex d-md-none align-items-end">
-                                    <!-- Settings Dropdown -->
-                                    <div class="ms-3 position-relative">
-                                        <Dropdown :align="end" width="48">
-                                            <template #trigger>
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-secondary dropdown-toggle"
-                                                    data-bs-toggle="dropdown"
-                                                    aria-expanded="false"
-                                                >
-                                                    {{
-                                                        $page.props.auth.user
-                                                            .first_name
-                                                    }}
-                                                </button>
-                                            </template>
-
-                                            <template #content>
-                                                <DropdownLink
-                                                    :href="
-                                                        route('profile.edit')
-                                                    "
-                                                    class="dropdown-item"
-                                                    >Profile</DropdownLink
-                                                >
-                                                <DropdownLink
-                                                    :href="route('logout')"
-                                                    method="post"
-                                                    as="button"
-                                                    class="dropdown-item"
-                                                >
-                                                    Log Out
-                                                </DropdownLink>
-                                            </template>
-                                        </Dropdown>
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
+                    <div class="nav__toggle" id="nav-toggle">
+                        <i class="ri-menu-line nav__toggle-menu"></i>
+                        <i class="ri-close-line nav__toggle-close"></i>
                     </div>
-                </div>
-            </nav>
+                </nav>
+            </header>
 
             <!-- Page Heading -->
-            <header  v-if="$slots.header">
-                <div class="container my-5">
+            <header v-if="$slots.header">
+                <div class="container mt-10 mb-5">
                     <slot name="header"></slot>
                 </div>
             </header>
